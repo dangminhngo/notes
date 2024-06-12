@@ -141,6 +141,13 @@ enum class Day {Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday};
 Day today {Day::Monday}; // will have the value 0
 ```
 
+You can specify the type of the enumerators like this:
+
+```cpp
+enum class Day : unsigned int {Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday};
+enum class Punctuation : char {Comma = ',', Exclamation = '!', Question = '?'};
+```
+
 ## Aliases for Data Types
 
 The `using` keyword enables you to specify a _type alias_, which is your own
