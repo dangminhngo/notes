@@ -155,3 +155,118 @@ while (true) {
 An array of elements of type `char` can have a dual personality. It can simply
 be an array of characters, in which each element stores one character, or it can
 represent a string. The _null character_ `\0` marks the end of the string.
+
+```cpp
+// this is not a string, it's just an array of five characters
+char vowels[5] {'a', 'e', 'i', 'o', 'u'};
+
+// but this is a string, the elements that don't have explicit initial values will be
+// initialized with the null character, \0
+char vowels[6] {'a', 'e', 'i', 'o', 'u'};
+```
+
+You can leave the compiler to set the size of the array when you initialize it
+with a string literal
+
+```cpp
+char name[] {"Mae West"}; // array of nine elements
+```
+
+## Multidimensional Arrays
+
+You can also define arrays that require two or more index values to access an
+element. These are referred to generically as _multidimensional arrays_.
+
+```cpp
+double carrots[3][4]{
+    {2.5, 3.2, 3.7, 4.1},
+    {4.1, 3.9, 1.6, 3.5},
+    {2.8, 2.3, 0.9, 1.1}
+};
+```
+
+You can let the compiler determine the size of the first (leftmost) dimension of
+an array with any number of dimensions from the set of initializing values. The
+compiler can determine only _one_ of the dimensions in a multidimensional array,
+and it has to be the first.
+
+```cpp
+double carrots[3][4]{
+    {2.5, 3.2          },
+    {4.1, 3.9, 1.6     },
+    {2.8, 2.3, 0.9, 1.1}
+};
+```
+
+You can define arrays of two or more dimensions to hold any type of data.
+
+```cpp
+char stars[][80] {
+    "Robert Renford",
+    "Hopalong Cassidy",
+    "Bruce Wayne",
+    "Criston Cole",
+    "Rhaenyra Targaryen"
+};
+```
+
+## Allocating an Array at Runtime
+
+The array dimension must be a constant expression that can be evaluated by the
+compiler.
+
+## Alternatives to Using an Array
+
+The STL defines a rich collection of data structures called _containers_ that
+offer a variety of ways to organize and access your data: `std::vector<T>` and
+`std::array<T, N>`.
+
+The `array<T, N>` template is defined in the `<array>` module.
+
+```cpp
+std::array<double, 100> values {}; // zero-initialize all 100 elements
+std::array values {0.5, 1.0, 1.5, 2.0}; // deduced type: std::array<double, 4>
+```
+
+You can easily set all the elements to any other given value using the `fill()`
+function.
+
+```cpp
+values.fill(std::numbers::pi);
+```
+
+The `size()` function for an `array<>` object returns the number of elements as
+type `size_t`.
+
+```cpp
+values.size();
+```
+
+You can access an individual element using an index between square brackets. The
+`at()` function checks for invalid index values.
+
+```cpp
+values[1];
+values.at(1);
+```
+
+Containers are compared element by element. For a `true` result for `==`, all
+pairs of corresponding elements must be equal.
+
+```cpp
+std::array these {1.0, 2.0, 3.0, 4.0};
+std::array those {1.0, 2.0, 3.0, 4.0};
+std::array them {1.0, 1.0, 5.0, 5.0};
+
+these == those // true
+those != theme // true
+those > them // true
+them < those // true
+```
+
+Unlike standard arrays, you can also assign one `array<>` container to another,
+as long as they both store the same number of elements of the same type.
+
+```cpp
+them = those; // copy all elements of those to them
+```
